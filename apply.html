@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TalentScout — Apply Now</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #0f0f11;
+      color: #e5e5e5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 24px 40px;
+      border-bottom: 1px solid #1e1e24;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-mark {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      color: #fff;
+    }
+
+    .logo-text { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+    .logo-text span { color: #a855f7; }
+
+    .logo-link { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+
+    nav { display: flex; align-items: center; gap: 8px; }
+
+    .nav-link {
+      color: #888; font-size: 14px; font-weight: 500;
+      padding: 8px 14px; border-radius: 8px; text-decoration: none;
+      transition: color 0.15s, background 0.15s;
+    }
+
+    .nav-link:hover { color: #e5e5e5; background: #1a1a20; }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 48px 20px 64px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 640px;
+      background: #16161a;
+      border: 1px solid #1e1e24;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 32px 36px 24px;
+      border-bottom: 1px solid #1e1e24;
+    }
+
+    .card-header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      margin-bottom: 6px;
+    }
+
+    .card-header p { color: #888; font-size: 14px; line-height: 1.5; }
+
+    form { padding: 32px 36px; display: flex; flex-direction: column; gap: 20px; }
+
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    .field { display: flex; flex-direction: column; gap: 6px; }
+
+    label { font-size: 13px; font-weight: 500; color: #bbb; }
+    label .req { color: #a855f7; margin-left: 2px; }
+
+    input, select, textarea {
+      background: #0f0f11;
+      border: 1px solid #2a2a32;
+      border-radius: 8px;
+      color: #e5e5e5;
+      font-size: 14px;
+      padding: 10px 14px;
+      outline: none;
+      transition: border-color 0.15s;
+      font-family: inherit;
+      width: 100%;
+    }
+
+    input:focus, select:focus, textarea:focus { border-color: #6366f1; }
+    input::placeholder, textarea::placeholder { color: #444; }
+
+    select option { background: #16161a; }
+
+    textarea { resize: vertical; min-height: 90px; }
+
+    .skills-wrapper {
+      background: #0f0f11;
+      border: 1px solid #2a2a32;
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      min-height: 48px;
+      cursor: text;
+      transition: border-color 0.15s;
+    }
+
+    .skills-wrapper:focus-within { border-color: #6366f1; }
+
+    .skill-tag {
+      background: #1e1e2e;
+      border: 1px solid #6366f1;
+      color: #a5b4fc;
+      border-radius: 6px;
+      padding: 3px 10px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .skill-tag button {
+      background: none;
+      border: none;
+      color: #6366f1;
+      cursor: pointer;
+      font-size: 15px;
+      line-height: 1;
+      padding: 0;
+    }
+
+    .skill-tag button:hover { color: #a855f7; }
+
+    #skill-input {
+      background: none;
+      border: none;
+      outline: none;
+      color: #e5e5e5;
+      font-size: 14px;
+      min-width: 140px;
+      flex: 1;
+      padding: 2px 0;
+    }
+
+    .hint { font-size: 12px; color: #555; margin-top: 2px; }
+
+    #experienced-fields {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.25s ease, opacity 0.2s ease;
+    }
+
+    #experienced-fields.visible {
+      max-height: 120px;
+      opacity: 1;
+    }
+
+    .divider {
+      height: 1px;
+      background: #1e1e24;
+      margin: 4px 0;
+    }
+
+    .submit-btn {
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 13px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+      margin-top: 4px;
+    }
+
+    .submit-btn:hover { opacity: 0.9; }
+    .submit-btn:active { transform: scale(0.99); }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #1e1e2e;
+      border: 1px solid #6366f1;
+      color: #e5e5e5;
+      padding: 14px 24px;
+      border-radius: 10px;
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity 0.25s, transform 0.25s;
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 999;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .toast.error { border-color: #ef4444; color: #fca5a5; }
+
+    @media (max-width: 520px) {
+      .row { grid-template-columns: 1fr; }
+      form, .card-header { padding-left: 20px; padding-right: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="logo-link" href="/">
+    <div class="logo-mark">T</div>
+    <div class="logo-text">Talent<span>Scout</span></div>
+  </a>
+  <nav>
+    <a class="nav-link" href="/">Home</a>
+    <a class="nav-link" href="/careers">Careers</a>
+  </nav>
+</header>
+
+<main>
+  <div class="card">
+    <div class="card-header">
+      <h1>Join our talent pool</h1>
+      <p>Tell us about yourself and we'll match you with the right opportunities.</p>
+    </div>
+
+    <form id="scout-form" novalidate>
+
+      <div class="row">
+        <div class="field">
+          <label for="name">Full name <span class="req">*</span></label>
+          <input id="name" type="text" placeholder="Jane Doe" required />
+        </div>
+        <div class="field">
+          <label for="email">Email <span class="req">*</span></label>
+          <input id="email" type="email" placeholder="jane@email.com" required />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="linkedin">LinkedIn URL <span class="req">*</span></label>
+          <input id="linkedin" type="url" placeholder="linkedin.com/in/janedoe" required />
+        </div>
+        <div class="field">
+          <label for="github">GitHub URL</label>
+          <input id="github" type="url" placeholder="github.com/janedoe" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="role">Role you're looking for <span class="req">*</span></label>
+          <select id="role" required>
+            <option value="" disabled selected>Select a role</option>
+            <optgroup label="Business & Management">
+              <option>Marketing</option>
+              <option>Sales</option>
+              <option>Business Development</option>
+              <option>Operations</option>
+              <option>Finance & Accounting</option>
+              <option>Human Resources</option>
+              <option>Legal & Compliance</option>
+              <option>Strategy & Consulting</option>
+            </optgroup>
+            <optgroup label="Technology">
+              <option>Software Engineer</option>
+              <option>Frontend Developer</option>
+              <option>Backend Developer</option>
+              <option>Full Stack Developer</option>
+              <option>Data Scientist / Analyst</option>
+              <option>ML / AI Engineer</option>
+              <option>DevOps / SRE</option>
+              <option>Product Manager</option>
+              <option>UI / UX Designer</option>
+            </optgroup>
+            <optgroup label="Other">
+              <option>Content & Communications</option>
+              <option>Customer Success</option>
+              <option>Research & Development</option>
+              <option>Other</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="field">
+          <label for="experience">Years of experience</label>
+          <select id="experience">
+            <option value="" disabled selected>Select</option>
+            <option>0–1 years</option>
+            <option>1–3 years</option>
+            <option>3–5 years</option>
+            <option>5–8 years</option>
+            <option>8+ years</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Skills <span class="req">*</span></label>
+        <div class="skills-wrapper" id="skills-wrapper">
+          <input id="skill-input" type="text" placeholder="Type a skill and press Enter…" autocomplete="off" />
+        </div>
+        <span class="hint">e.g. Python, React, AWS, SQL — press Enter or comma to add</span>
+      </div>
+
+      <div class="field">
+        <label for="is-fresher">Are you a fresher? <span class="req">*</span></label>
+        <select id="is-fresher">
+          <option value="yes" selected>Yes</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+
+      <div id="experienced-fields">
+        <div class="row">
+          <div class="field">
+            <label for="current-org">Current organisation <span class="req">*</span></label>
+            <input id="current-org" type="text" placeholder="e.g. Infosys" />
+          </div>
+          <div class="field">
+            <label for="notice-period">Notice period (days) <span class="req">*</span></label>
+            <input id="notice-period" type="number" min="0" max="365" placeholder="e.g. 30" />
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="bio">Short bio / cover note</label>
+        <textarea id="bio" placeholder="Tell us a bit about yourself, what you've built, and what you're looking for…"></textarea>
+      </div>
+
+      <div class="divider"></div>
+
+      <button type="submit" class="submit-btn" id="submit-btn">Submit application</button>
+
+    </form>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const skills = [];
+  const wrapper = document.getElementById('skills-wrapper');
+  const skillInput = document.getElementById('skill-input');
+
+  function addSkill(value) {
+    const v = value.trim().replace(/,+$/, '');
+    if (!v || skills.includes(v)) return;
+    skills.push(v);
+
+    const tag = document.createElement('div');
+    tag.className = 'skill-tag';
+    tag.innerHTML = `${v} <button type="button" aria-label="Remove ${v}">&times;</button>`;
+    tag.querySelector('button').addEventListener('click', () => {
+      skills.splice(skills.indexOf(v), 1);
+      wrapper.removeChild(tag);
+    });
+
+    wrapper.insertBefore(tag, skillInput);
+    skillInput.value = '';
+  }
+
+  skillInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      addSkill(skillInput.value);
+    }
+    if (e.key === 'Backspace' && !skillInput.value && skills.length) {
+      const last = wrapper.querySelectorAll('.skill-tag');
+      last[last.length - 1].querySelector('button').click();
+    }
+  });
+
+  skillInput.addEventListener('blur', () => addSkill(skillInput.value));
+  wrapper.addEventListener('click', () => skillInput.focus());
+
+  const fresherSelect = document.getElementById('is-fresher');
+  const experiencedFields = document.getElementById('experienced-fields');
+
+  fresherSelect.addEventListener('change', () => {
+    if (fresherSelect.value === 'no') {
+      experiencedFields.classList.add('visible');
+    } else {
+      experiencedFields.classList.remove('visible');
+      document.getElementById('notice-period').value = '';
+      document.getElementById('current-org').value = '';
+    }
+  });
+
+  function showToast(msg, isError = false) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast' + (isError ? ' error' : '');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3500);
+  }
+
+  document.getElementById('scout-form').addEventListener('submit', async e => {
+    e.preventDefault();
+
+    const btn = document.getElementById('submit-btn');
+    const isFresher = document.getElementById('is-fresher').value === 'yes';
+    const noticePeriodRaw = document.getElementById('notice-period').value.trim();
+    const currentOrg = document.getElementById('current-org').value.trim();
+
+    const payload = {
+      name:          document.getElementById('name').value.trim(),
+      email:         document.getElementById('email').value.trim(),
+      linkedin:      document.getElementById('linkedin').value.trim(),
+      github:        document.getElementById('github').value.trim(),
+      role:          document.getElementById('role').value,
+      experience:    document.getElementById('experience').value,
+      skills,
+      is_fresher:    isFresher,
+      current_org:   isFresher ? null : currentOrg,
+      notice_period: isFresher ? null : parseInt(noticePeriodRaw, 10),
+      bio:           document.getElementById('bio').value.trim(),
+    };
+
+    if (!payload.name || !payload.email || !payload.linkedin || !payload.role) {
+      showToast('Please fill in all required fields.', true);
+      return;
+    }
+
+    if (skills.length === 0) {
+      showToast('Please add at least one skill.', true);
+      return;
+    }
+
+    if (!isFresher) {
+      if (!currentOrg) {
+        showToast('Please enter your current organisation.', true);
+        return;
+      }
+      if (!noticePeriodRaw || isNaN(payload.notice_period) || payload.notice_period < 0) {
+        showToast('Please enter a valid notice period in days.', true);
+        return;
+      }
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+
+    try {
+      const res = await fetch('http://localhost:5000/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error || 'Submission failed');
+
+      showToast('Application submitted! We\'ll be in touch.');
+      e.target.reset();
+      skills.length = 0;
+      wrapper.querySelectorAll('.skill-tag').forEach(t => t.remove());
+    } catch (err) {
+      showToast(err.message || 'Something went wrong. Try again.', true);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Submit application';
+    }
+  });
+</script>
+
+</body>
+</html>

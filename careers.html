@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TalentScout — Careers</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #0f0f11;
+      color: #e5e5e5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Header ── */
+    header {
+      padding: 24px 40px;
+      border-bottom: 1px solid #1e1e24;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo { display: flex; align-items: center; gap: 12px; }
+
+    .logo-mark {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 18px; color: #fff;
+    }
+
+    .logo-text { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+    .logo-text span { color: #a855f7; }
+
+    nav { display: flex; align-items: center; gap: 8px; }
+
+    .nav-link {
+      color: #888; font-size: 14px; font-weight: 500;
+      padding: 8px 14px; border-radius: 8px;
+      transition: color 0.15s, background 0.15s;
+    }
+
+    .nav-link:hover { color: #e5e5e5; background: #1a1a20; }
+    .nav-link.active { color: #e5e5e5; }
+
+    .nav-cta {
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      color: #fff; border: none; border-radius: 8px;
+      padding: 8px 18px; font-size: 14px; font-weight: 600;
+      cursor: pointer; margin-left: 8px;
+      transition: opacity 0.15s;
+    }
+
+    .nav-cta:hover { opacity: 0.88; }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 64px 40px 48px;
+      max-width: 860px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .hero-label {
+      font-size: 12px; font-weight: 600; letter-spacing: 1.2px;
+      color: #a855f7; text-transform: uppercase; margin-bottom: 14px;
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800; letter-spacing: -1px;
+      line-height: 1.15; margin-bottom: 14px;
+    }
+
+    .hero p { font-size: 16px; color: #666; line-height: 1.6; max-width: 520px; }
+
+    /* ── Job list ── */
+    .jobs-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 40px 80px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .job-card {
+      background: #16161a;
+      border: 1px solid #1e1e24;
+      border-radius: 12px;
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      transition: border-color 0.15s;
+      cursor: pointer;
+    }
+
+    .job-card:hover { border-color: #6366f1; }
+
+    .job-left { flex: 1; min-width: 0; }
+
+    .job-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .job-company {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.3px;
+      color: #a855f7;
+    }
+
+    .job-dot { width: 3px; height: 3px; border-radius: 50%; background: #444; }
+
+    .job-location { font-size: 12px; color: #555; }
+
+    .job-title {
+      font-size: 17px; font-weight: 700; letter-spacing: -0.2px;
+      margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    .job-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .tag {
+      background: #1a1a24;
+      border: 1px solid #2a2a38;
+      color: #888;
+      border-radius: 6px;
+      padding: 3px 10px;
+      font-size: 12px;
+    }
+
+    .tag.type { color: #6ee7b7; border-color: #134e3a; background: #0d2b22; }
+    .tag.exp  { color: #fcd34d; border-color: #4a3800; background: #261e00; }
+
+    .job-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .job-salary { font-size: 14px; font-weight: 600; color: #ccc; white-space: nowrap; }
+    .job-posted { font-size: 12px; color: #444; }
+
+    .apply-btn {
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity 0.15s;
+      text-decoration: none;
+    }
+
+    .apply-btn:hover { opacity: 0.88; }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: auto;
+      padding: 24px 40px;
+      border-top: 1px solid #1e1e24;
+      text-align: center;
+      font-size: 13px;
+      color: #444;
+    }
+
+    @media (max-width: 600px) {
+      header { padding: 18px 20px; }
+      .hero, .filters-bar, .jobs-wrap { padding-left: 20px; padding-right: 20px; }
+      .job-card { flex-direction: column; align-items: flex-start; }
+      .job-right { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+      nav .nav-link { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="/">
+    <div class="logo-mark">T</div>
+    <div class="logo-text">Talent<span>Scout</span></div>
+  </a>
+  <nav>
+    <a class="nav-link" href="/">Home</a>
+    <a class="nav-link active" href="/careers">Careers</a>
+    <a class="nav-cta" href="/apply">Apply now</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-label">Join our team</div>
+  <h1>Work at<br />TalentScout</h1>
+  <p>We're a small, ambitious team building the future of recruiting. If you want to be part of it, we'd love to hear from you.</p>
+</section>
+
+<div class="jobs-wrap">
+
+  <div class="job-card" onclick="window.open('https://forms.gle/fGK7hubV4nmmLgpJ6', '_blank')">
+    <div class="job-left">
+      <div class="job-meta">
+        <span class="job-company">TalentScout</span>
+        <div class="job-dot"></div>
+        <span class="job-location">Remote · India</span>
+      </div>
+      <div class="job-title">HR Intern</div>
+      <div class="job-tags">
+        <span class="tag type">Internship</span>
+        <span class="tag exp">Fresher / 0–1 yr</span>
+        <span class="tag">Sourcing</span>
+        <span class="tag">Candidate Screening</span>
+        <span class="tag">Communication</span>
+      </div>
+    </div>
+    <div class="job-right">
+      <div>
+        <div class="job-salary">Stipend-based</div>
+        <div class="job-posted">Posted today</div>
+      </div>
+      <a class="apply-btn" href="https://forms.gle/fGK7hubV4nmmLgpJ6" target="_blank" onclick="event.stopPropagation()">Apply</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  &copy; 2026 TalentScout. All rights reserved.
+</footer>
+
+
+</body>
+</html>
